@@ -5,5 +5,7 @@ from . import (
     human_eval_plus,
     lm_evaluation_harness,
     mt_bench,
+    mt_bench_de,
+    mt_bench_vago,
     total,
 )
