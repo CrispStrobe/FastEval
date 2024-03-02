@@ -165,6 +165,8 @@ async def main_async():
         choices=[
             "all",
             "mt-bench",
+            "mt-bench-de",
+            "mt-bench-vago",
             "cot",
             "cot/gsm8k",
             "cot/math",
@@ -284,6 +286,8 @@ async def main_async():
 
     evaluation_functions = [
         ("mt-bench", benchmarks.mt_bench.evaluate_model),
+        ("mt-bench-de", benchmarks.mt_bench_de.evaluate_model),
+        ("mt-bench-vago", benchmarks.mt_bench_vago.evaluate_model),
         ("human-eval-plus", benchmarks.human_eval_plus.evaluate_model),
         ("ds1000", benchmarks.ds_1000.evaluate_model),
         ("cot", benchmarks.cot.evaluate_model),
