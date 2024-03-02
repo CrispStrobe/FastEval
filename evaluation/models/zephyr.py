@@ -2,13 +2,13 @@ from .huggingface import Huggingface
 
 
 class Zephyr(Huggingface):
-    def __init__(self, model_path, *, default_system_message="", **kwargs):
-        super().__init__(
+    async def init(self, model_path, *, default_system_message="", **kwargs):
+        await super().init(
             model_path,
             user="<|user|>\n",
-            assistant="<|assistant|>\n",
+            assistant="<|assistant|>",
             system="<|system|>\n",
             default_system=default_system_message,
-            end="</s>\n",
+            end="<|end|>\n",
             **kwargs,
         )
