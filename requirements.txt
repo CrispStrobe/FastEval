@@ -16,4 +16,4 @@ evalplus
 # models
 einops # required for falcon
 fschat
-openai
+openai==0.28
