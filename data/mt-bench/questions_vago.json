@@ -144,7 +144,7 @@
     ]
   },
   "101": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Stellen Sie sich vor, Sie nehmen an einem Rennen mit einer Gruppe von Menschen teil. Wenn Sie gerade die zweite Person überholt haben, was ist Ihre aktuelle Position? Wo ist die Person, die Sie gerade überholt haben?",
       "Wenn die \"zweite Person\" in der obigen Frage durch \"letzte Person\" ersetzt wird, was wäre die Antwort?"
@@ -155,7 +155,7 @@
     ]
   },
   "102": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Sie sehen ein schönes rotes Haus auf Ihrer linken Seite und ein faszinierendes Gewächshaus auf Ihrer rechten Seite, einen attraktiven beheizten rosa Ort vor sich. Also, wo ist das Weiße Haus?",
       "Enthält die ursprüngliche Frage Hinweise, um den Standort des Weißen Hauses eindeutig zu bestimmen?"
@@ -166,7 +166,7 @@
     ]
   },
   "103": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Thomas ist sehr gesund, muss aber jeden Tag ins Krankenhaus gehen. Was könnten die Gründe dafür sein?",
       "Können Sie erklären, warum die obige Frage interessant ist?"
@@ -177,7 +177,7 @@
     ]
   },
   "104": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "David hat drei Schwestern. Jede von ihnen hat einen Bruder. Wie viele Brüder hat David?",
       "Wenn wir die vorherige Frage ändern und annehmen, dass jede Schwester von David zwei Brüder hat, wie viele Brüder hätte David dann?"
@@ -188,7 +188,7 @@
     ]
   },
   "105": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Lesen Sie den folgenden Text sorgfältig durch und beantworten Sie die Fragen mit einer Erklärung:\nIn einem kleinen Unternehmen sind Parkplätze für die Top-Führungskräfte reserviert: CEO, Präsident, Vizepräsident, Sekretär und Schatzmeister, und die Parkplätze sind in dieser Reihenfolge angeordnet. Der Parkplatzwächter kann auf einen Blick erkennen, ob die Autos richtig geparkt sind, indem er auf die Farbe der Autos schaut. Die Autos sind gelb, grün, lila, rot und blau, und die Namen der Führungskräfte sind Alice, Bert, Cheryl, David und Enid.\n* Das Auto auf dem ersten Platz ist rot.\n* Ein blaues Auto ist zwischen dem roten Auto und dem grünen Auto geparkt.\n* Das Auto auf dem letzten Platz ist lila.\n* Die Sekretärin fährt ein gelbes Auto.\n* Alice's Auto ist neben David's geparkt.\n* Enid fährt ein grünes Auto.\n* Bert's Auto ist zwischen Cheryl's und Enid's geparkt.\n* David's Auto ist auf dem letzten Platz geparkt.\nFrage: Wie lautet der Name der Sekretärin?",
       "Listen Sie die Autofarben in umgekehrter Reihenfolge auf."
@@ -199,7 +199,7 @@
     ]
   },
   "106": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Jedes Problem besteht aus drei Aussagen. Basierend auf den ersten beiden Aussagen kann die dritte Aussage wahr, falsch oder ungewiss sein.\n1. Orangen sind teurer als Äpfel.\n2. Orangen sind billiger als Bananen.\n3. Bananen sind teurer als Äpfel und Bananen sind teurer als Orangen.\nWenn die ersten beiden Aussagen wahr sind, dann ist die dritte Aussage",
       "Wenn die dritte Aussage wahr ist. Ist die erste Aussage wahr, falsch oder ungewiss? Bitte erklären."
@@ -210,7 +210,7 @@
     ]
   },
   "107": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "A ist der Vater von B. B ist der Vater von C. Was ist die Beziehung zwischen A und C?",
       "Aufbauend auf die vorherige Frage, wenn C der Sohn von D ist, D ist der Vater von E, E ist der Sohn von X ist, und X ist der Vater von Y, und Y ist der Vater von Z, was ist die Beziehung zwischen A und Z in Bezug auf die Generationen und auch die familiäre Beziehung in Worten?"
@@ -221,7 +221,7 @@
     ]
   },
   "108": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Welches Wort gehört nicht zu den anderen?\nReifen, Lenkrad, Auto, Motor",
       "Können Sie es durch ein Wort ersetzen, das zu den anderen gehört?"
@@ -232,7 +232,7 @@
     ]
   },
   "109": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "An einem Morgen nach Sonnenaufgang stand Suresh vor einem Pfahl. Der Schatten des Pfahls fiel genau nach rechts von ihm. Können Sie mir sagen, in welche Richtung der Schatten zeigt - Osten, Süden, Westen oder Norden? Erklären Sie Ihre Schritte zur Begründung.",
       "In welche Richtung schaute Suresh? Wie lösen Sie das?"
@@ -243,7 +243,7 @@
     ]
   },
   "110": {
-    "category": "Begründung",
+    "category": "Logik",
     "turns": [
       "Eltern haben sich beim Schulleiter über Mobbing während der Pause beschwert. Der Schulleiter möchte dies schnell lösen und weist die Aufsichtspersonen an, wachsam zu sein. Welche Situation sollten die Aufsichtspersonen dem Schulleiter melden?\na) Ein desinteressiertes Mädchen sitzt alleine auf einer Bank, vertieft in ein Buch und zeigt keine Interaktion mit ihren Mitschülern.\nb) Zwei Jungen, die sich in einem eins-gegen-eins-Basketballspiel befinden, sind in einen hitzigen Streit über den zuletzt erzielten Korb verwickelt.\nc) Eine Gruppe von vier Mädchen hat ein anderes Mädchen umzingelt und scheint ihren Rucksack in Besitz genommen zu haben.\nd) Drei Jungen sitzen über einem Handheld-Videospiel, was gegen die Regeln verstößt und auf dem Schulgelände nicht erlaubt ist.",
       "Wenn die Aufsichtspersonen die Gruppe der Mädchen aus Situation (c) konfrontieren und diese das Mobbing leugnen, indem sie behaupten, sie hätten nur ein Spiel gespielt, nach welchen konkreten Beweisen sollten die Aufsichtspersonen suchen, um festzustellen, ob dies wahrscheinliche Wahrheit oder eine Vertuschung für das Mobbing ist?"
@@ -364,7 +364,7 @@
     ]
   },
   "121": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Entwickle ein Python Programm, dass alle Textdateien in einem Verzeichnis liest und die fünf Wörter mit der höchsten Häufigkeit zurückgibt.",
       "Kannst du es parallelisieren?"
@@ -375,7 +375,7 @@
     ]
   },
   "122": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Schreib ein C++ Programm um die nte Fibonacci Nummer herauszufinden mit Hilfe einer Rekursion.",
       "Wir definieren nun eine Sequenz von Nummern in der jede Nummer die Summe der drei fortlaufenden Nummern ist. Die ersten drei Nummern sind 0, -1, -1. Schreib ein Programm um die nte Nummer zu berechnen."
@@ -386,14 +386,14 @@
     ]
   },
   "123": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Schreibe eine einfache Website in HTML. Wenn ein Nutzer den Butten klickt, wird ein zufälliger Witz aus einer Liste von vier Witzen angezeigt",
       "Wie benutzt man CSS um die Farbe der Witze in rot anzuzeigen?"
     ]
   },
   "124": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Hier ist eine Python-Funktion, um die Länge der längsten gemeinsamen Teilsequenz zweier Eingabezeichenfolgen zu ermitteln. Kannst du einen Fehler in dieser Funktion identifizieren?\n\n```\ndef longest_common_subsequence_length(str1, str2):\n    m = len(str1)\n    n = len(str2)\n\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if str1[i - 1] == str2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n\n    return dp[m][n]\n```",
       "what about this one?\n\n```\ndef longest_common_subsequence(X , Y): \n    # Find lengths of two strings \n    m = len(X) \n    n = len(Y) \n  \n    # Create a table to store results of sub-problems \n    dp = [[None]*(n+1) for i in range(m+1)] \n  \n    # Fill dp[][] in bottom up manner \n    for i in range(1, m+1): \n        for j in range(1, n+1): \n            if X[i-1] == Y[j-1]: \n                dp[i][j] = dp[i-1][j-1]+1\n            else: \n                dp[i][j] = max(dp[i-1][j], dp[i][j-1]) \n  \n    return dp[m][n]\n```"
@@ -404,7 +404,7 @@
     ]
   },
   "125": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Schreibe eine Funktion, um den höchsten gemeinsamen Vorfahren (nicht LCA) zweier Knoten in einem Binärbaum zu finden.",
       "Was ist, wenn es sich nicht um einen Binärbaum handelt?"
@@ -415,7 +415,7 @@
     ]
   },
   "126": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Implementiere eine Funktion, um den Median zweier sortierter Arrays unterschiedlicher Größe mit O(1) Raumkomplexität und O(n) Zeitkomplexität zu ermitteln.",
       "Gibt es eine Implementierung mit besserer Zeitkomplexität?"
@@ -426,7 +426,7 @@
     ]
   },
   "127": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Schreibe eine Funktion, um mithilfe des Boyer-Moore-Abstimmungsalgorithmus das Mehrheitselement in einem bestimmten ganzzahligen Array zu finden.",
       "Wie wäre es, die beiden am häufigsten vorkommenden Elemente zu finden?"
@@ -437,7 +437,7 @@
     ]
   },
   "128": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Ein Binärbaum ist voll, wenn alle seine Knoten entweder null oder zwei Kinder haben. Sei B_n die Anzahl der vollständigen Binärbäume mit n Eckpunkten. Implementiere eine Funktion, um B_n zu finden.",
       "Was wäre, wenn sich das Problem von einem Binärbaum zu einem Ternärbaum ändern würde?"
@@ -448,7 +448,7 @@
     ]
   },
   "129": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Sie erhalten zwei sortierte Listen der Größe m und n. Implementieren Sie eine Funktion, um das k-kleinste Element in der Vereinigung der beiden Listen mit linearer Komplexität zu finden.",
       "Gibt es einen Algorithmus mit besserer Zeitkomplexität? Wenn ja, implementiere es."
@@ -459,7 +459,7 @@
     ]
   },
   "130": {
-    "category": "coding",
+    "category": "Programmieren",
     "turns": [
       "Implementiere ein Programm, um die gemeinsamen Elemente in zwei Arrays zu finden, ohne zusätzliche Datenstrukturen zu verwenden.",
       "Jetzt ist die Einschränkung, keine zusätzliche Datenstruktur zu verwenden, beseitigt. Implementiere eine mit der besten Zeitkomplexität."
@@ -560,14 +560,14 @@
     ]
   },
   "141": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Im Bereich der Quantenphysik, was ist Überlagerung und wie hängt sie mit dem Phänomen der quantenmechanischen Verschränkung zusammen?",
       "Welche Annahmen haben Sie in Ihrer Antwort getroffen? Sind sie gültig?"
     ]
   },
   "142": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Betrachten Sie einen Satelliten, der sich in einer kreisförmigen Umlaufbahn um die Erde befindet. Die Geschwindigkeit des Satelliten nimmt ab. Was wird mit dem orbitalen Radius des Satelliten und seiner Umlaufdauer passieren? Bitte rechtfertigen Sie Ihre Antwort unter Verwendung physikalischer Prinzipien.",
       "Was sind einige Sonderfälle oder Randfälle in Ihrer Lösung? Wie gehen Sie mit ihnen um?"
@@ -578,7 +578,7 @@
     ]
   },
   "143": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Die Photosynthese ist ein lebenswichtiger Prozess für das Leben auf der Erde. Könnten Sie die beiden Hauptstadien der Photosynthese skizzieren, einschließlich des Ortes innerhalb des Chloroplasts, und der Hauptinputs und Outputs für jedes Stadium?",
       "Wie viel Energie kann ein Baum in seinem Leben durch Photosynthese produzieren? Bitte geben Sie eine Schätzung mit tatsächlichen numerischen Werten an und erklären Sie Ihren Gedankenprozess Schritt für Schritt."
@@ -589,7 +589,7 @@
     ]
   },
   "144": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Was ist das zentrale Dogma der Molekularbiologie? Welche Prozesse sind daran beteiligt? Wer hat dies benannt?",
       "Identifizieren und korrigieren Sie eine falsche Tatsache in Ihrer vorherigen Antwort."
@@ -600,7 +600,7 @@
     ]
   },
   "145": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Beschreiben Sie den Prozess und schreiben Sie die ausgeglichene chemische Gleichung für die Reaktion, die auftritt, wenn fester Calciumcarbonat mit Salzsäure reagiert, um wässriges Calciumchlorid, Kohlendioxid und Wasser zu bilden. Um welche Art von Reaktion handelt es sich, und welche Beobachtungen könnten darauf hinweisen, dass die Reaktion stattfindet?",
       "Wie können wir diesen Prozess umkehren?"
@@ -611,35 +611,35 @@
     ]
   },
   "146": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Bitte erläutern Sie die Unterschiede zwischen exothermen und endothermen Reaktionen und geben Sie die Kriterien an, die Sie zur Unterscheidung zwischen ihnen verwendet haben. Bitte geben Sie auch ein Beispiel aus der realen Welt an, um Ihre Erklärung zu veranschaulichen.",
       "Kann ein Prozess beide Reaktionen beinhalten? Nennen Sie einen."
     ]
   },
   "147": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Die Stadt Vega beabsichtigt, eine Brücke zu bauen, die über den Fluss Vegona spannt und eine Strecke von 1,8 Kilometern abdeckt. Der vorgeschlagene Standort liegt in einem seismisch aktiven Gebiet, das bereits mehrere Erdbeben mit hoher Magnitude erlebt hat. Angesichts dieser Umstände, wie sollte die beste Vorgehensweise für den Bau der Brücke sein?",
       "Was sind die Hauptnachteile oder Mängel Ihrer Lösung? Bitte führen Sie Berechnungen durch und verwenden Sie Zahlen, um sie zu veranschaulichen."
     ]
   },
   "148": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Sie wurden beauftragt, ein solarbetriebenes Warmwassersystem für ein Wohngebäude zu entwerfen. Beschreiben Sie die wichtigsten Komponenten und Überlegungen, die Sie in Ihrem Design berücksichtigen würden. Entwerfen Sie einen Workflow in fünf Schritten.",
       "Wenn das System für ein Gebäude mit einer Kapazität von 100 Personen vorgesehen ist, wie hoch wäre das geschätzte Budget für die Implementierung dieses Systems?"
     ]
   },
   "149": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Bitte beschreiben Sie das Konzept des maschinellen Lernens. Könnten Sie die Unterschiede zwischen überwachtem, unüberwachtem und reinforcement learning näher erläutern? Geben Sie konkrete Beispiele aus der realen Welt für jeden an.",
       "In Ihrem letzten Beispiel für reinforcement learning, können wir es mit überwachtem Lernen lösen? Listen Sie eins auf."
     ]
   },
   "150": {
-    "category": "Stamm",
+    "category": "MINT",
     "turns": [
       "Wie haben die Alpen und der Rhein die Besiedlung und Landwirtschaft in Westeuropa beeinflusst? Listen Sie drei Auswirkungen auf.",
       "Wie könnten Sie ein konkretes, aber einfaches Experiment entwerfen, um die erste Auswirkung zu validieren?"
