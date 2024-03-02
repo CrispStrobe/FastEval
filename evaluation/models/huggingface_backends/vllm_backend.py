@@ -18,6 +18,7 @@ async def create_model(*, model_path, tokenizer_path, dtype):
             disable_log_requests=True,
             trust_remote_code=True,
             max_num_seqs=1024,
+            max_model_len=8192,
         ),
         start_engine_loop=False,
     )
