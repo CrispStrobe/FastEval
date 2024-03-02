@@ -100,6 +100,7 @@ async def create_model(
     from evaluation.models.stable_beluga import StableBeluga
     from evaluation.models.starchat import Starchat
     from evaluation.models.wizard_lm import WizardLM
+    from evaluation.models.zephyr import Zephyr
     from evaluation.models.mistral_instruct import MistralInstruct
 
     model_classes = {
@@ -118,6 +119,7 @@ async def create_model(
         "dolphin": Dolphin,
         "openchat-llama2-v1": OpenchatLlama2V1,
         "wizard-lm": WizardLM,
+        "zephyr": Zephyr,
         "mistral-instruct": MistralInstruct,
     }
 
