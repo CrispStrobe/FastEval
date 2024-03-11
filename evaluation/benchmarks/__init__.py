@@ -6,4 +6,5 @@ from . import (
     lm_evaluation_harness,
     mt_bench,
     total,
+    creative_writing
 )

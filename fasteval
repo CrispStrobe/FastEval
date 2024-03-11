@@ -174,6 +174,7 @@ async def main_async():
             "ds1000",
             "lm-evaluation-harness",
             "custom-test-data",
+            "creative-writing"
         ],
         nargs="*",
         default="all",
@@ -259,7 +260,7 @@ async def main_async():
         return
 
     if "all" in args.benchmarks:
-        args.benchmarks = ["mt-bench", "cot", "human-eval-plus", "ds1000"]
+        args.benchmarks = ["mt-bench", "cot", "human-eval-plus", "ds1000", "creative-writing"]
 
     if os.path.exists("reports/__index__.json"):
         with open("reports/__index__.json") as f:
@@ -303,7 +304,7 @@ async def main_async():
             if benchmark_name not in top_level_benchmarks:
                 continue
             if benchmark_name == "lm-evaluation-harness":
-                await unload_model()
+                await unload_model()                
             try:
                 kwargs = {}
                 if benchmark_name == "custom-test-data":
@@ -314,13 +315,21 @@ async def main_async():
                         for e in item["benchmarks"]
                         if e.startswith(benchmark_name + "/")
                     ]
-                await evaluation_function(
-                    item["model_type"],
-                    item["model_name"],
-                    item["model_args"],
-                    item["id"],
-                    **kwargs
-                )
+                if benchmark_name == "creative-writing":
+                    await benchmarks.creative_writing.evaluate_model(
+                        item["model_type"],
+                        item["model_name"], 
+                        item["model_args"],
+                        item["id"],
+                    )
+                else:
+                    await evaluation_function(
+                        item["model_type"],
+                        item["model_name"],
+                        item["model_args"],
+                        item["id"],
+                        **kwargs
+                    )
             except:
                 import traceback
 

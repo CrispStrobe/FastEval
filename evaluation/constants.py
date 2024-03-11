@@ -19,4 +19,5 @@ WEIGHTS = {
     "human-eval-plus": (3, 1),
     "lm-evaluation-harness": (0, 100),
     "ds1000": (5, 1),
+    "creative-writing": (3, 10),
 }
