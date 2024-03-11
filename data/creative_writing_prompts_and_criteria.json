@@ -1,6 +1,6 @@
 {
 	"1": {
-		"writing_prompt": "Fairy Tale Retelling: Rewrite the story of Hansel and Gretel from the perspective of the witch, in the format of raw, terse stream-of-consciousness diary entries written in her style & voice. She may at times be an unreliable narrator. She sees herself as fundamentally good and portrays herself sympathetically; she believes she is misunderstood and has a tragic backstory. Include snippets of dialogue between the witch and the children in a way that feels natural for a diary entry. You may take liberties with the original story. The witch will not die in this version; she needs to be able to write her final entry. It will not be happily ever after. 800-1000 words.",
+		"writing_prompt": "Fairy Tale Retelling: Rewrite the story of Hansel and Gretel from the perspective of the witch, in the format of raw, terse stream-of-consciousness diary entries written in her style & voice. She may at times be an unreliable narrator. She sees herself as fundamentally good and portrays herself sympathetically; she believes she is misunderstood and has a tragic backstory. Include snippets of dialogue between the witch and the children in a way that feels natural for a diary entry. You may take liberties with the original story. The witch will not die in this version; she needs to be able to write her final entry. It will not be happily ever after. 600-800 words.",
 		"judging_criteria": [
 			{
 				"prefix_text": "Now, rate the supplied model output on the following metrics (lower = better):",
