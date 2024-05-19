@@ -1,4 +1,6 @@
-**Project status: I will not add significant new features and mostly fix bugs.**
+**Project status:** 
+The original creator of this project [FastEval/FastEval](https://github.com/FastEval/FastEval) wrote: "I will not add significant new features and mostly fix bugs."
+This fork includes MT-Bench-de as included by [mayflower/FastEval](https://github.com/mayflower/FastEval) and adds a few fixes for local inference flexibility, i.a.
 
 # FastEval
 
@@ -32,9 +34,16 @@ pip install -r requirements.txt
 
 This already installs [vLLM](https://github.com/vllm-project/vllm) for fast inference which is usually enough [for most models](https://vllm.readthedocs.io/en/latest/models/supported_models.html). However, if you encounter any problems with vLLM or your model is not supported, FastEval also supports using [text-generation-inference](https://github.com/huggingface/text-generation-inference) as an alternative. Please see [here](docs/text-generation-inference.md) if you would like to use text-generation-inference.
 
-### OpenAI API Key
+### OpenAI API Key for LLM-as-a-judge
 
-[MT-Bench](https://arxiv.org/abs/2306.05685) uses GPT-4 as a judge for evaluating model outputs. For this benchmark, you need to configure an OpenAI API key by setting the `OPENAI_API_KEY` environment variable. Note that methods other than setting this environment variable won't work. The cost of evaluating a new model on MT-Bench is approximately $5.
+[MT-Bench](https://arxiv.org/abs/2306.05685) uses an LLM as a judge for evaluating model outputs.
+For this benchmark, you can configure the following environment variables:
+* MT_BENCH_JUDGE_TYPE=openai_judge
+* MT_BENCH_JUDGE_MODEL=gpt-4-0613
+* JUDGE_API_BASE=https://api.openai.com/v1
+* JUDGE_API_KEY=your_api_key
+Note that methods other than setting this environment variable won't work.
+The cost of evaluating a new model on MT-Bench is approximately $5.
 
 ## Evaluation
 
@@ -45,7 +54,7 @@ To evaluate a new model, call `fasteval` in the following way:
 ./fasteval [-b <benchmark_name_1>...] -t model_type -m model_name
 ````
 
-The `-b` flag specifies the benchmarks that you want to evaluate your model on. The default is `all`, but you can also specify one or multiple individual benchmarks. Possible values are [`mt-bench`](https://fasteval.github.io/FastEval/#?benchmark=mt-bench), [`human-eval-plus`](https://fasteval.github.io/FastEval/#?benchmark=human-eval-plus), [`ds1000`](https://fasteval.github.io/FastEval/#?benchmark=ds1000), [`cot`](https://fasteval.github.io/FastEval/#?benchmark=cot), `cot/gsm8k`, `cot/math`, `cot/bbh`, `cot/mmlu` and [`custom-test-data`](docs/custom-test-data.md).
+The `-b` flag specifies the benchmarks that you want to evaluate your model on. The default is `all`, but you can also specify one or multiple individual benchmarks. Possible values are [`mt-bench`](https://fasteval.github.io/FastEval/#?benchmark=mt-bench), `mt-bench-de`, `mt-bench-vago`, [`human-eval-plus`](https://fasteval.github.io/FastEval/#?benchmark=human-eval-plus), [`ds1000`](https://fasteval.github.io/FastEval/#?benchmark=ds1000), [`cot`](https://fasteval.github.io/FastEval/#?benchmark=cot), `cot/gsm8k`, `cot/math`, `cot/bbh`, `cot/mmlu` and [`custom-test-data`](docs/custom-test-data.md).
 
 The `-t` flag specifies the type of the model which is either the prompt template or the API client that will be used. [Please see here](docs/model-type.md) for information on which model type to select for your model.
 
@@ -55,6 +64,11 @@ For example, this command will evaluate [`OpenAssistant/pythia-12b-sft-v8-2.5k-s
 ```bash
 ./fasteval -b human-eval-plus -t open-assistant -m OpenAssistant/pythia-12b-sft-v8-2.5k-steps
 ```
+
+For local inference per OpenAI compatible API, you can set the following environment variables:
+OPENAI_API_BASE=http://localhost:8000/v1
+OPENAI_API_KEY=ollama
+This way, you can e.g. use llama_cpp.server (default: http://localhost:8000/v1) or ollama (default: http://localhost:11434/v1)
 
 There are also flags available for enabling & configuring data parallel evaluation, setting model arguments and changing the inference backend. Please use `./fasteval -h` for more information.
 
