@@ -30,7 +30,9 @@ class OpenAI(OpenAIBase):
         elif self.model_name.startswith("gpt-4"):
             self.semaphore = asyncio.Semaphore(NUM_THREADS_OPENAI_GPT4)
         else:
-            raise Exception("Unknown OpenAI model.")
+            self.semaphore = asyncio.Semaphore(NUM_THREADS_OPENAI_GPT4)
+            print ("Warning. Using an unknown OpenAI model. Assuming number of threads equals those for GPT-4.")
+             # raise Exception("Unknown OpenAI model.")
 
     async def reply(self, conversation, *, temperature=None, max_new_tokens=None):
         import openai
