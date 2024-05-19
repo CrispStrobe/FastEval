@@ -142,8 +142,11 @@ def print_final_stack_traces(exceptions):
 
 async def main_async():
     import os
-
-    os.setpgrp()
+    
+    try:
+        os.setpgrp()    
+    except PermissionError:
+        pass
 
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
