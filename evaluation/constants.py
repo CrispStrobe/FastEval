@@ -9,21 +9,7 @@ COT_MAX_NEW_TOKENS = 2048
 
 MT_BENCH_JUDGE_MAX_NEW_TOKENS = 2048
 
-MT_BENCH_JUDGE = (os.environ.get("MT_BENCH_JUDGE_TYPE", "openai"), os.environ.get("MT_BENCH_JUDGE_MODEL", "gpt-4-0613"))
-
-HUMAN_EVAL_PLUS_TEMPERATURE = 0.2
-COT_TEMPERATURE = 0
-
-WEIGHTS = {
-    # (weight, maximum possible value)
-    "mt-bench": (2, 10),
-    "mt-bench-de": (2, 10),
-    "mt-bench-vago": (2, 10),
-    "cot": (18, 1),
-    "human-eval-plus": (3, 1),
-    "lm-evaluation-harness": (0, 100),
-    "ds1000": (5, 1),
-}
+MT_BENCH_JUDGE = (os.environ.get("MT_BENCH_JUDGE_TYPE", "openai_judge"), os.environ.get("MT_BENCH_JUDGE_MODEL", "gpt-4-0613"))
 
 HUMAN_EVAL_PLUS_TEMPERATURE = 0.2
 COT_TEMPERATURE = 0
