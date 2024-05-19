@@ -176,7 +176,7 @@ async def compute_judge_replies(model_name, evaluation_id):
             }
             for item in judge_conversations
         ],
-        progress_bar_description=model_name + " :: MT-Bench-Vago :: Judging with GPT-4",
+        progress_bar_description=model_name + " :: MT-Bench-Vago :: Judging with " + MT_BENCH_JUDGE,
     )
 
     judge_replies = [
