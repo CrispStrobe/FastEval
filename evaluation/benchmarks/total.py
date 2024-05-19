@@ -12,6 +12,7 @@ def compute_total_scores(model_name, evaluation_id):
         "lm-evaluation-harness",
         "mt-bench",
         "ds1000",
+        "creative-writing"
     ]
     scores = {}
     for benchmark_name in benchmarks:
@@ -61,10 +62,11 @@ def compute_total_scores(model_name, evaluation_id):
         and "human-eval-plus" in scores
         and "mt-bench" in scores
         and "ds1000" in scores
+        and "creative-writing" in scores 
     ):
         scores["total"] = 0
         max_value = 0
-        for benchmark_name in ["human-eval-plus", "cot", "mt-bench", "ds1000"]:
+        for benchmark_name in ["human-eval-plus", "cot", "mt-bench", "ds1000", "creative-writing"]:
             weight, benchmark_max_value = WEIGHTS[benchmark_name]
             scores["total"] += weight * scores[benchmark_name]
             max_value += weight * benchmark_max_value

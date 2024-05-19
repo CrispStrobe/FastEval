@@ -1,0 +1,50 @@
+{
+	"1": {
+		"writing_prompt": "Fairy Tale Retelling: Rewrite the story of Hansel and Gretel from the perspective of the witch, in the format of raw, terse stream-of-consciousness diary entries written in her style & voice. She may at times be an unreliable narrator. She sees herself as fundamentally good and portrays herself sympathetically; she believes she is misunderstood and has a tragic backstory. Include snippets of dialogue between the witch and the children in a way that feels natural for a diary entry. You may take liberties with the original story. The witch will not die in this version; she needs to be able to write her final entry. It will not be happily ever after. 600-800 words.",
+		"judging_criteria": [
+			{
+				"prefix_text": "Now, rate the supplied model output on the following metrics (lower = better):",
+				"criteria": [
+					"Trite",
+					"Overwrought",
+					"Amateurish",
+					"Contrived",
+					"Uninspiring"
+				]
+			},
+			{
+				"prefix_text": "Now, rate the supplied model output on the following metrics:",
+				"criteria": [
+					"Coherent",
+					"Correct Spelling & Grammar",
+					"Emotionally Complex",
+					"Emotionally Engaging",
+					"Elegant Prose",
+					"Imagery and Descriptive Quality"
+				]
+			},
+			{
+				"prefix_text": "Now, rate the supplied model output on the following metrics:",
+				"criteria": [
+					"Consistent Voice/Tone of Writing",
+					"Appropriate Length",
+					"Believable Characters",
+					"Believable Character Actions",
+					"Adherence to Instructions",
+					"Adherence to Character Bios"
+				]
+			},
+			{
+				"prefix_text": "Now, rate the supplied model output on the following metrics (note - each of these should be a rating for how well the model executed the prompt instruction):",
+				"criteria": [
+					"Dialogue is Well Integrated",
+					"Compelling Ending",
+					"Witch Portrays Herself Sympathetically",
+					"Terse Stream-of-Consciousness Style",
+					"Diary Entries Feel Natural",
+					"Unreliable Narration"
+				]
+			}
+		]
+	}
+}

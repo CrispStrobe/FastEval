@@ -8,4 +8,5 @@ from . import (
     mt_bench_de,
     mt_bench_vago,
     total,
+    creative_writing
 )
