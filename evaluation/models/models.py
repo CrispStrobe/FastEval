@@ -95,6 +95,7 @@ async def create_model(
     from evaluation.models.guanaco import Guanaco
     from evaluation.models.llama2_chat import Llama2Chat
     from evaluation.models.open_ai import OpenAI
+    from evaluation.models.open_ai import OpenAIJudge
     from evaluation.models.open_assistant import OpenAssistant
     from evaluation.models.openchat_llama2_v1 import OpenchatLlama2V1
     from evaluation.models.stable_beluga import StableBeluga
@@ -106,6 +107,7 @@ async def create_model(
     model_classes = {
         "debug": Debug,
         "openai": OpenAI,
+        "openai_judge": OpenAIJudge,
         "fastchat": Fastchat,
         "open-assistant": OpenAssistant,
         "guanaco": Guanaco,
