@@ -10,6 +10,7 @@ from evaluation.constants import MT_BENCH_JUDGE, MT_BENCH_JUDGE_MAX_NEW_TOKENS
 from evaluation.models.models import compute_model_replies, create_model
 from evaluation.utils import process_with_progress_bar
 
+debug_v = False
 
 def get_temperature(category):
     return (
@@ -33,16 +34,19 @@ async def generate_single_conversation_assistant_replies(model_and_question):
     first_turn_reply = await model.reply(
         first_turn_conversation, temperature=question["temperature"]
     )
+    if debug_v:
+       print ("1st turn reply ", first_turn_reply)
 
     second_turn_conversation = [
         ("user", question["turns"][0]),
         ("assistant", first_turn_reply),
         ("user", question["turns"][1]),
     ]
-
     second_turn_reply = await model.reply(
         second_turn_conversation, temperature=question["temperature"]
     )
+    if debug_v:
+       print ("2nd turn reply ", second_turn_reply)
 
     return [first_turn_reply, second_turn_reply]
 
@@ -178,7 +182,7 @@ async def compute_judge_replies(model_name, evaluation_id):
             }
             for item in judge_conversations
         ],
-        progress_bar_description=model_name + " :: MT-Bench-DE :: Judging with " + MT_BENCH_JUDGE,
+        progress_bar_description=f"{model_name} :: MT-Bench-DE :: Judging with {MT_BENCH_JUDGE}",
     )
 
     judge_replies = [
@@ -193,7 +197,6 @@ async def compute_judge_replies(model_name, evaluation_id):
     os.makedirs(os.path.dirname(judge_replies_filepath), exist_ok=True)
     with open(judge_replies_filepath, "w") as f:
         json.dump(judge_replies, f, indent=4)
-
 
 def compute_model_score(model_name, evaluation_id):
     with open("data/mt-bench/questions_de.json") as f:
