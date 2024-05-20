@@ -10,7 +10,6 @@ from evaluation.constants import MT_BENCH_JUDGE, MT_BENCH_JUDGE_MAX_NEW_TOKENS
 from evaluation.models.models import compute_model_replies, create_model
 from evaluation.utils import process_with_progress_bar
 
-
 def get_temperature(category):
     return ({
         'Schreiben': 0.7,
@@ -176,7 +175,7 @@ async def compute_judge_replies(model_name, evaluation_id):
             }
             for item in judge_conversations
         ],
-        progress_bar_description=model_name + " :: MT-Bench-Vago :: Judging with " + MT_BENCH_JUDGE,
+        progress_bar_description=f"{model_name} :: MT-Bench-Vago :: Judging with {MT_BENCH_JUDGE}",
     )
 
     judge_replies = [
