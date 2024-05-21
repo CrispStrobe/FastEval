@@ -257,13 +257,22 @@ async def compute_model_replies(model, conversations, *, progress_bar_descriptio
     if len(conversations) == 0:
         return []
 
+    end_token = "<|im_end|>" ## temporary quick & dirty fix for the moment, somehow this did not work otherwise, maybe fixable by other start parameters
+
     async def compute_reply(conversation):
         if isinstance(conversation, list):
-            return await model.reply(conversation)
+            reply = await model.reply(conversation)
         elif isinstance(conversation, dict):
-            return await model.reply(**conversation)
-        raise
-
+            reply = await model.reply(**conversation)
+        else:
+            raise ValueError("Invalid conversation format")
+        
+        # Strip the end token if it exists at the end of the reply
+        if reply.endswith(end_token):
+            reply = reply[:-len(end_token)].rstrip()
+        
+        return reply
+        
     return await evaluation.utils.process_with_progress_bar(
         items=conversations,
         process_fn=compute_reply,
