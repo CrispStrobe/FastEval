@@ -17,6 +17,12 @@ async def fetch_model_config(model_name: str):
 
     import transformers
 
+    # Check if the model is a llama_cpp model
+    if "gguf" in model_name:
+        fetched_model_configs[model_name] = None
+        fetched_model_configs_lock.release()
+        return None
+
     model_config = transformers.AutoConfig.from_pretrained(
         model_name, trust_remote_code=True
     )
@@ -28,6 +34,11 @@ async def fetch_model_config(model_name: str):
 
 
 async def get_dtype(model_name: str):
+    # Check if the model is a llama_cpp model
+    if "gguf" in model_name:
+        import torch
+        return torch.float16  # or whatever default dtype is appropriate
+
     return (await fetch_model_config(model_name)).torch_dtype
 
 
@@ -123,6 +134,7 @@ async def create_model(
         "wizard-lm": WizardLM,
         "zephyr": Zephyr,
         "mistral-instruct": MistralInstruct,
+        #"llama_cpp": LlamaCpp,  # Add this line
     }
 
     if model_type not in model_classes:
@@ -157,18 +169,21 @@ async def switch_inference_backend(new_inference_backend):
     import evaluation.models.huggingface_backends.hf_transformers
     import evaluation.models.huggingface_backends.tgi
     import evaluation.models.huggingface_backends.vllm_backend
+    import evaluation.models.huggingface_backends.llama_cpp_backend  # Correct import
 
     unload_backend_fns = {
         "hf_transformers": evaluation.models.huggingface_backends.hf_transformers.unload_model,
         "vllm": evaluation.models.huggingface_backends.vllm_backend.unload_model,
         "tgi": evaluation.models.huggingface_backends.tgi.unload_model,
         "fastchat": evaluation.models.fastchat.unload_model,
+        "llama_cpp": evaluation.models.huggingface_backends.llama_cpp_backend.unload_model,  # Correct reference
     }
 
     for inference_backend_name, unload_backend_fn in unload_backend_fns.items():
         if inference_backend_name == new_inference_backend:
             continue
         await unload_backend_fn()
+
 
 
 async def unload_model():
