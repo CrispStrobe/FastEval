@@ -43,7 +43,14 @@ def handle_item_sync(compute_model_responses, model, batch):
 
 
 async def run_worker_process(
-    *, model_path, dtype=None, queue, worker_functions, worker_is_blocking, tokenizer_path=None
+    *, 
+    model_path, 
+    dtype=None, 
+    queue, 
+    worker_functions, 
+    worker_is_blocking, 
+    tokenizer_path=None, # Added
+    backend_params=None, # Added
 ):
     assert (worker_is_blocking and "compute_model_responses" in worker_functions) or (
         not worker_is_blocking and "compute_model_response" in worker_functions
@@ -54,6 +61,7 @@ async def run_worker_process(
             model_path=model_path,
             dtype=dtype,
             tokenizer_path=tokenizer_path,  # Added as default
+            backend_params=backend_params,  # Added
         )
     except:
         import traceback
@@ -110,7 +118,9 @@ async def start_new_worker_process(
     queue,
     devices,
     worker_functions,
-    worker_is_blocking
+    worker_is_blocking,
+    tokenizer_path=None, # Added
+    backend_params=None  # Added
 ):
     # This lock is needed because we modify the `CUDA_VISIBLE_DEVICES` environment variable
     # before starting the new child process. This environment variable is global for our whole process,
@@ -134,6 +144,8 @@ async def start_new_worker_process(
             "queue": queue,
             "worker_functions": worker_functions,
             "worker_is_blocking": worker_is_blocking,
+            "tokenizer_path": tokenizer_path,  # Added
+            "backend_params": backend_params,  # Added
         },
     ).start()
 
@@ -155,7 +167,8 @@ class WorkerProcessManager:
         maximum_batch_size,
         num_devices_per_model,
         worker_functions,
-        worker_is_blocking
+        worker_is_blocking,
+        backend_params=None,  # Add backend_params here
     ):
         import torch
 
@@ -198,6 +211,8 @@ class WorkerProcessManager:
                 devices=devices,
                 worker_functions=worker_functions,
                 worker_is_blocking=worker_is_blocking,
+                tokenizer_path=self.tokenizer_path,  # Added
+                backend_params=backend_params,       # Added
             )
 
         ack_pipes = []
@@ -287,6 +302,7 @@ class DataParallelBackend:
         temperature,
         max_batch_size ,
         tokenizer_path=None,  # Add tokenizer_path with default None
+        backend_params=None,  # Added
         item
     ):
         import torch
@@ -320,7 +336,7 @@ class DataParallelBackend:
                 #    worker_is_blocking=self.worker_is_blocking,
                 #)
                 await self.current_worker_process_manager.init(
-                      tokenizer_path=tokenizer_path,
+                      tokenizer_path=tokenizer_path, # Added
                       model_path=model_path,
                       dtype=dtype,
                       maximum_batch_size=max_batch_size,
@@ -328,6 +344,7 @@ class DataParallelBackend:
                       or torch.cuda.device_count(),
                       worker_functions=self.worker_functions,
                       worker_is_blocking=self.worker_is_blocking,
+                      backend_params=backend_params,  # Added
                 )
             except Exception as error:
                 self.lock.release()
