@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import signal
+import shlex
 
 # This is just for the child processes that we spawn
 # The main process will shortly set up its own signal handler
@@ -142,11 +143,11 @@ def print_final_stack_traces(exceptions):
 
 async def main_async():
     import os
-    
+
     try:
-        os.setpgrp()    
+        os.setpgrp()
     except PermissionError:
-        pass
+           pass
 
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
@@ -180,7 +181,6 @@ async def main_async():
             "ds1000",
             "lm-evaluation-harness",
             "custom-test-data",
-            "creative-writing"
         ],
         nargs="*",
         default="all",
@@ -206,7 +206,7 @@ async def main_async():
     )
     parser.add_argument(
         "--model-force-inference-backend",
-        choices=["vllm", "tgi", "hf_transformers"],
+        choices=["vllm", "tgi", "hf_transformers", "llama_cpp"],
         required=False,
         help="Force a specific backend for model inference. By default, the backend will be selected automatically depending on model support, "
         + "but if you encounter bugs with this you can overwrite the backend with this argument.",
@@ -239,6 +239,11 @@ async def main_async():
         help="Continue with evaluating previously stopped or failed evaluations",
         action="store_true",
     )
+    parser.add_argument(
+        "--backend-params",
+        type=str,
+        help="Additional parameters to be forwarded to the vLLM backend, e.g., '--quantization awq --distributed-executor-backend mp'",
+    )
     args = parser.parse_args()
 
     evaluation.args.cmd_arguments = args
@@ -255,9 +260,19 @@ async def main_async():
     if (
         "inference_backend" not in model_args
         and args.model_name is not None
-        and args.model_type not in ["openai", "debug"]
+        and args.model_type not in ["openai", "openai_judge", "debug"]
     ):
         model_args["inference_backend"] = await get_inference_backend(args.model_name)
+
+    # Inside the main_async function, after parsing arguments
+    backend_params = {}
+    if args.backend_params:
+       backend_params_list = shlex.split(args.backend_params)
+       for param in backend_params_list:
+           key, value = param.split(' ', 1)
+           backend_params[key.strip()] = value.strip()
+
+    model_args["backend_params"] = backend_params if backend_params else None
 
     if args.run_correctness_check:
         await run_inference_backend_correctness_check(
@@ -266,7 +281,7 @@ async def main_async():
         return
 
     if "all" in args.benchmarks:
-        args.benchmarks = ["mt-bench", "cot", "human-eval-plus", "ds1000", "creative-writing"]
+        args.benchmarks = ["mt-bench", "cot", "human-eval-plus", "ds1000"]
 
     if os.path.exists("reports/__index__.json"):
         with open("reports/__index__.json") as f:
@@ -312,7 +327,7 @@ async def main_async():
             if benchmark_name not in top_level_benchmarks:
                 continue
             if benchmark_name == "lm-evaluation-harness":
-                await unload_model()                
+                await unload_model()
             try:
                 kwargs = {}
                 if benchmark_name == "custom-test-data":
@@ -323,21 +338,13 @@ async def main_async():
                         for e in item["benchmarks"]
                         if e.startswith(benchmark_name + "/")
                     ]
-                if benchmark_name == "creative-writing":
-                    await benchmarks.creative_writing.evaluate_model(
-                        item["model_type"],
-                        item["model_name"], 
-                        item["model_args"],
-                        item["id"],
-                    )
-                else:
-                    await evaluation_function(
-                        item["model_type"],
-                        item["model_name"],
-                        item["model_args"],
-                        item["id"],
-                        **kwargs
-                    )
+                await evaluation_function(
+                    item["model_type"],
+                    item["model_name"],
+                    item["model_args"],
+                    item["id"],
+                    **kwargs
+                )
             except:
                 import traceback
 
