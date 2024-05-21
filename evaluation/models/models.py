@@ -111,10 +111,12 @@ async def get_inference_backend(model_path: str):
     raise Exception('No inference backend supported for model "' + model_path)
 
 
+
+
 async def ensure_model_file(model_name: str):
-    
-    from huggingface_hub import hf_hub_download, list_repo_files
+    from huggingface_hub import hf_hub_download, list_repo_files, HfApi, login
     from requests.exceptions import HTTPError
+    import os
     
     # Check if the model is a llama_cpp model with a .gguf extension
     if model_name.lower().endswith(".gguf") or "gguf" in model_name.lower():
@@ -122,7 +124,7 @@ async def ensure_model_file(model_name: str):
             repo_id = model_name.split("/")[0]
             filename = model_name.split("/")[-1]
             try:
-                # Try to download the specified GGUF file
+                # Attempt to download the specified GGUF file
                 model_name = hf_hub_download(repo_id=repo_id, filename=filename)
             except HTTPError as e:
                 if e.response.status_code == 404:
@@ -134,9 +136,18 @@ async def ensure_model_file(model_name: str):
                             break
                     else:
                         raise ValueError(f"No GGUF file found in Hugging Face repository {repo_id}")
+                elif e.response.status_code == 401:
+                    # Handle unauthorized error, possibly due to missing authentication
+                    token = os.getenv('HUGGINGFACE_TOKEN')
+                    if token:
+                        login(token=token)
+                        model_name = hf_hub_download(repo_id=repo_id, filename=filename)
+                    else:
+                        raise ValueError(f"Unauthorized access to repository {repo_id}. Please ensure you have the correct access token.")
                 else:
                     raise e
     return model_name
+
 
 async def create_model(
     model_type: str, 
