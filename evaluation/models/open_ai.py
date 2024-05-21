@@ -2,6 +2,16 @@ import asyncio
 import os
 import time
 
+#you can also use local inference, e.g. like this:
+#export MT_BENCH_JUDGE_TYPE=openai_judge
+#export MT_BENCH_JUDGE_MODEL=cas/spaetzle-v71-7b:latest
+#export JUDGE_API_BASE=http://localhost:8000/v1
+#export JUDGE_API_KEY=ollama
+#export OPENAI_API_BASE=http://localhost:8000/v1
+#export OPENAI_API_KEY=ollama
+#python3 -m llama_cpp.server --model spaetzle-v71-7b.Q4_K_M.gguf --chat_format chatml --n_gpu_layers 100
+
+
 from evaluation.constants import (
     DEFAULT_MAX_NEW_TOKENS,
     NUM_THREADS_OPENAI_GPT3_5,
@@ -19,11 +29,15 @@ class OpenAI(OpenAIBase):
         model_name,
         *,
         default_system_message=None,
-        max_new_tokens=DEFAULT_MAX_NEW_TOKENS
+        max_new_tokens=DEFAULT_MAX_NEW_TOKENS,
+        backend_params=None,  # Added for flexibility
+        **kwargs  # accept and ignore additional keyword arguments
     ):
         await super().init(model_name, max_new_tokens=max_new_tokens)
 
         self.default_system_message = default_system_message
+
+        self.backend_params = backend_params  # Store it in the instance
 
         if self.model_name.startswith("gpt-3.5-turbo"):
             self.semaphore = asyncio.Semaphore(NUM_THREADS_OPENAI_GPT3_5)
@@ -97,11 +111,13 @@ class OpenAIJudge(OpenAIBase):
         model_name,
         *,
         default_system_message=None,
-        max_new_tokens=DEFAULT_MAX_NEW_TOKENS
+        max_new_tokens=DEFAULT_MAX_NEW_TOKENS,
+        backend_params=None,  # Added for flexibility
     ):
         await super().init(model_name, max_new_tokens=max_new_tokens)
 
         self.default_system_message = default_system_message
+        self.backend_params = backend_params  # Store it in the instance
 
         if self.model_name.startswith("gpt-3.5-turbo"):
             self.semaphore = asyncio.Semaphore(NUM_THREADS_OPENAI_GPT3_5)
