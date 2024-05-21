@@ -99,9 +99,19 @@ backend = DataParallelBackend(
 )
 
 
+#async def run_inference(**kwargs):
+#    return await backend.run_inference(**kwargs, max_batch_size=1)
 async def run_inference(**kwargs):
-    return await backend.run_inference(**kwargs, max_batch_size=1)
+    filtered_kwargs = filter_inference_kwargs(kwargs)  # Filter the kwargs to remove unexpected arguments
+    item = {
+        "messages": kwargs.get("messages", [{"role": "system", "content": "No previous messages"}]),  # Ensure messages are passed
+    }
 
+    # Include backend_params if provided
+    if "backend_params" in kwargs:
+        filtered_kwargs["backend_params"] = kwargs["backend_params"]
+
+    return await backend.run_inference(**filtered_kwargs, item=item, max_batch_size=1)
 
 async def unload_model():
     return await backend.unload_model()
