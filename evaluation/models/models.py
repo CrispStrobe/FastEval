@@ -110,9 +110,12 @@ async def get_inference_backend(model_path: str):
 
     raise Exception('No inference backend supported for model "' + model_path)
 
-from huggingface_hub import hf_hub_download, list_repo_files, EntryNotFoundError
 
 async def ensure_model_file(model_name: str):
+    
+    from huggingface_hub import hf_hub_download, list_repo_files
+    from requests.exceptions import HTTPError
+    
     # Check if the model is a llama_cpp model with a .gguf extension
     if model_name.lower().endswith(".gguf") or "gguf" in model_name.lower():
         if not os.path.exists(model_name):
@@ -121,15 +124,18 @@ async def ensure_model_file(model_name: str):
             try:
                 # Try to download the specified GGUF file
                 model_name = hf_hub_download(repo_id=repo_id, filename=filename)
-            except EntryNotFoundError:
-                # If the specified GGUF file is not found, search for any GGUF file in the repo
-                repo_files = list_repo_files(repo_id)
-                for file in repo_files:
-                    if file.lower().endswith(".gguf"):
-                        model_name = hf_hub_download(repo_id=repo_id, filename=file)
-                        break
+            except HTTPError as e:
+                if e.response.status_code == 404:
+                    # If the specified GGUF file is not found, search for any GGUF file in the repo
+                    repo_files = list_repo_files(repo_id)
+                    for file in repo_files:
+                        if file.lower().endswith(".gguf"):
+                            model_name = hf_hub_download(repo_id=repo_id, filename=file)
+                            break
+                    else:
+                        raise ValueError(f"No GGUF file found in Hugging Face repository {repo_id}")
                 else:
-                    raise ValueError(f"No GGUF file found in Hugging Face repository {repo_id}")
+                    raise e
     return model_name
 
 async def create_model(
