@@ -56,16 +56,19 @@ async def run_worker_process(
         not worker_is_blocking and "compute_model_response" in worker_functions
     )
 
+    create_model_args = {
+        "model_path": model_path,
+        "dtype": dtype,
+        "tokenizer_path": tokenizer_path,
+    }
+
+    if backend_params is not None:
+        create_model_args["backend_params"] = backend_params
+    
     try:
-        model = await worker_functions["create_model"](
-            model_path=model_path,
-            dtype=dtype,
-            tokenizer_path=tokenizer_path,  # Added as default
-            backend_params=backend_params,  # Added
-        )
+        model = await worker_functions["create_model"](**create_model_args)
     except:
         import traceback
-
         queue.put(("error-when-creating-model", traceback.format_exc()))
         return
 
@@ -136,17 +139,21 @@ async def start_new_worker_process(
         [str(device_id) for device_id in devices]
     )
 
+    process_kwargs = {
+        "model_path": model_path,
+        "dtype": dtype,
+        "queue": queue,
+        "worker_functions": worker_functions,
+        "worker_is_blocking": worker_is_blocking,
+        "tokenizer_path": tokenizer_path,
+    }
+
+    if backend_params is not None:
+        process_kwargs["backend_params"] = backend_params
+
     multiprocessing.Process(
         target=run_worker_process_in_new_event_loop,
-        kwargs={
-            "model_path": model_path,
-            "dtype": dtype,
-            "queue": queue,
-            "worker_functions": worker_functions,
-            "worker_is_blocking": worker_is_blocking,
-            "tokenizer_path": tokenizer_path,  # Added
-            "backend_params": backend_params,  # Added
-        },
+        kwargs=process_kwargs,
     ).start()
 
     if previous_cuda_visible_devices is None:
@@ -178,6 +185,7 @@ class WorkerProcessManager:
         self.maximum_batch_size = maximum_batch_size
         self.worker_is_blocking = worker_is_blocking
         self.backend_params = backend_params  # Added
+        self.models_are_loaded = False  # initialized here
 
         self.next_batch = []
         self.timestamp_when_last_batch_item_was_added = None
