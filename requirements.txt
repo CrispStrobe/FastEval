@@ -9,6 +9,11 @@ xformers
 vllm
 text-generation # for text-generation-inference backend
 
+#consider installing this with suitable environment parameters
+#e.g. for apple metal (mps): CMAKE_ARGS="-DLLAMA_METAL=on" pip install llama-cpp-python
+#or use a suitable precompibled wheel, eg: pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/metal
+llama-cpp-python
+
 # benchmarks
 lm_eval
 evalplus
