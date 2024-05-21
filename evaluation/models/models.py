@@ -94,7 +94,11 @@ async def get_inference_backend(model_path: str):
 
 
 async def create_model(
-    model_type: str, model_name: str, model_args: dict[str, str], **kwargs
+        model_type: str, 
+        model_name: str, 
+        model_args: dict[str, str], 
+        backend_params=None, # Added
+        **kwargs  
 ):
     from evaluation.models.alpaca_with_prefix import AlpacaWithPrefix
     from evaluation.models.alpaca_without_prefix import AlpacaWithoutPrefix
@@ -134,7 +138,7 @@ async def create_model(
         "wizard-lm": WizardLM,
         "zephyr": Zephyr,
         "mistral-instruct": MistralInstruct,
-        #"llama_cpp": LlamaCpp,  # Add this line
+        #"llama_cpp": LlamaCpp,  # we do this differently now
     }
 
     if model_type not in model_classes:
@@ -142,7 +146,8 @@ async def create_model(
 
     model_class = model_classes[model_type]
     model = model_class()
-    await model.init(model_name, **model_args, **kwargs)
+    await model.init(model_name, backend_params=backend_params, **model_args, **kwargs)  # Added backend_params here
+    
     return model
 
 
@@ -169,14 +174,14 @@ async def switch_inference_backend(new_inference_backend):
     import evaluation.models.huggingface_backends.hf_transformers
     import evaluation.models.huggingface_backends.tgi
     import evaluation.models.huggingface_backends.vllm_backend
-    import evaluation.models.huggingface_backends.llama_cpp_backend  # Correct import
+    import evaluation.models.huggingface_backends.llama_cpp_backend  # new import
 
     unload_backend_fns = {
         "hf_transformers": evaluation.models.huggingface_backends.hf_transformers.unload_model,
         "vllm": evaluation.models.huggingface_backends.vllm_backend.unload_model,
         "tgi": evaluation.models.huggingface_backends.tgi.unload_model,
         "fastchat": evaluation.models.fastchat.unload_model,
-        "llama_cpp": evaluation.models.huggingface_backends.llama_cpp_backend.unload_model,  # Correct reference
+        "llama_cpp": evaluation.models.huggingface_backends.llama_cpp_backend.unload_model,  # new reference
     }
 
     for inference_backend_name, unload_backend_fn in unload_backend_fns.items():
