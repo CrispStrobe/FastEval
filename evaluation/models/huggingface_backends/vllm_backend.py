@@ -5,21 +5,31 @@ import uuid
 from evaluation.models.huggingface_backends.data_parallel import DataParallelBackend
 
 
-async def create_model(*, model_path, tokenizer_path, dtype):
+async def create_model(*, model_path, tokenizer_path, dtype, backend_params=None):
     import torch
     import vllm
 
+    # Process backend_params
+    engine_args = vllm.AsyncEngineArgs(
+        model=model_path,
+        tokenizer=tokenizer_path,
+        tensor_parallel_size=torch.cuda.device_count(),
+        dtype=str(dtype).replace("torch.", ""),
+        disable_log_requests=True,
+        trust_remote_code=True,
+        max_num_seqs=1024,
+        max_model_len=8192,
+    )
+
+    if backend_params:
+        for key, value in backend_params.items():
+            if hasattr(engine_args, key):
+                setattr(engine_args, key, value)
+            else:
+                raise AttributeError(f"Parsing of backend engine parameters failed: enginge_args has no attribute '{key}'")
+
     engine = vllm.AsyncLLMEngine.from_engine_args(
-        vllm.AsyncEngineArgs(
-            model=model_path,
-            tokenizer=tokenizer_path,
-            tensor_parallel_size=torch.cuda.device_count(),
-            dtype=str(dtype).replace("torch.", ""),
-            disable_log_requests=True,
-            trust_remote_code=True,
-            max_num_seqs=1024,
-            max_model_len=8192,
-        ),
+        engine_args,
         start_engine_loop=False,
     )
 
