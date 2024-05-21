@@ -146,7 +146,7 @@ async def create_model(
 
     model_class = model_classes[model_type]
     model = model_class()
-    await model.init(model_name, backend_params=backend_params, **model_args, **kwargs)  # Added backend_params here
+    await model.init(model_name, **model_args, **kwargs)  # Add: backend_params=backend_params, here?
     
     return model
 
