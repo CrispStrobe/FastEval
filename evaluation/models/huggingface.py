@@ -5,6 +5,8 @@ import evaluation.args
 import evaluation.models.huggingface_backends.hf_transformers
 import evaluation.models.huggingface_backends.tgi
 import evaluation.models.huggingface_backends.vllm_backend
+import evaluation.models.huggingface_backends.llama_cpp_backend  # for the llama-cpp-python wrapper
+
 import evaluation.models.models
 from evaluation.constants import DEFAULT_MAX_NEW_TOKENS
 from evaluation.models.utils import put_system_message_in_user_message
@@ -29,6 +31,7 @@ class Huggingface:
         max_new_tokens=DEFAULT_MAX_NEW_TOKENS,
         dtype=None,
         inference_backend: str,
+        backend_params=None,  # Added for flexible vllm backend configuration
     ):
         import torch
 
@@ -42,6 +45,7 @@ class Huggingface:
         self.system = system
         self.default_system = default_system
         self.end = end
+        self.backend_params = backend_params  # Store it in the instance
 
         if end2 is None:
             end2 = end
@@ -105,20 +109,12 @@ class Huggingface:
 
         common_kwargs = {
             "prompt": self.conversation_to_prompt(conversation),
-            "tokenizer_path": self.tokenizer_path,
             "model_path": self.model_path,
             "dtype": self.dtype,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
+            "backend_params": self.backend_params,  # for special cases
         }
-
-        if isinstance(common_kwargs["prompt"], tuple) and self.backend not in [
-            "hf_transformers",
-            "vllm",
-        ]:
-            raise Exception(
-                "Only the HF transformers & vLLM backends currently support using tokens instead of text."
-            )
 
         if self.backend == "vllm":
             response = (
@@ -131,10 +127,16 @@ class Huggingface:
                 **common_kwargs
             )
         elif self.backend == "hf_transformers":
-            # The batch size can be increased (should work), but batching doesn't seem to increase performance
             response = await evaluation.models.huggingface_backends.hf_transformers.run_inference(
                 **common_kwargs, max_batch_size=1
             )
+
+        elif self.backend == "llama_cpp":
+            response = await evaluation.models.huggingface_backends.llama_cpp_backend.run_inference(
+                **common_kwargs
+            )
+            print ("response: ", response)
+            return response
         else:
             raise
 
@@ -146,9 +148,10 @@ class Huggingface:
         if self.end2 is not None:
             special_tokens.append(self.end2)
 
-        eos_token = await self._get_eos_token()
-        if eos_token is not None:
-            special_tokens.append(eos_token)
+        if self.backend != "llama_cpp":
+            eos_token = await self._get_eos_token()
+            if eos_token is not None:
+                special_tokens.append(eos_token)
 
         final_substrings_to_remove = []
         for special_token in special_tokens:
