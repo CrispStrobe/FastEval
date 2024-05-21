@@ -168,7 +168,7 @@ class WorkerProcessManager:
         num_devices_per_model,
         worker_functions,
         worker_is_blocking,
-        backend_params=None,  # Add backend_params here
+        backend_params=None,  # Added
     ):
         import torch
 
@@ -177,6 +177,7 @@ class WorkerProcessManager:
         self.dtype = dtype
         self.maximum_batch_size = maximum_batch_size
         self.worker_is_blocking = worker_is_blocking
+        self.backend_params = backend_params  # Added
 
         self.next_batch = []
         self.timestamp_when_last_batch_item_was_added = None
@@ -212,7 +213,7 @@ class WorkerProcessManager:
                 worker_functions=worker_functions,
                 worker_is_blocking=worker_is_blocking,
                 tokenizer_path=self.tokenizer_path,  # Added
-                backend_params=backend_params,       # Added
+                backend_params=self.backend_params,  # Added
             )
 
         ack_pipes = []
@@ -322,6 +323,7 @@ class DataParallelBackend:
             or self.current_worker_process_manager.model_path != model_path
             or self.current_worker_process_manager.dtype != dtype
             or self.current_worker_process_manager.maximum_batch_size != max_batch_size
+            or self.current_worker_process_manager.backend_params != backend_params  # Added
         ):
             if self.current_worker_process_manager is not None:
                 await self.current_worker_process_manager.unload_model()
@@ -344,7 +346,7 @@ class DataParallelBackend:
                       or torch.cuda.device_count(),
                       worker_functions=self.worker_functions,
                       worker_is_blocking=self.worker_is_blocking,
-                      backend_params=backend_params,  # Added
+                      backend_params=backend_params,  # Added (no .self...)
                 )
             except Exception as error:
                 self.lock.release()
