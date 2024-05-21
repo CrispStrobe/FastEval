@@ -118,17 +118,61 @@ async def ensure_model_file(model_name: str):
     from requests.exceptions import HTTPError
     import os
     
-    # Check if the model is a llama_cpp model with a .gguf extension
-    if model_name.lower().endswith(".gguf") or "gguf" in model_name.lower():
-        if not os.path.exists(model_name):
-            repo_id = model_name.split("/")[0]
-            filename = model_name.split("/")[-1]
-            try:
-                # Attempt to download the specified GGUF file
-                model_name = hf_hub_download(repo_id=repo_id, filename=filename)
-            except HTTPError as e:
-                if e.response.status_code == 404:
-                    # If the specified GGUF file is not found, search for any GGUF file in the repo
+    # Check if the model_name exists locally first
+    if os.path.exists(model_name):
+        return model_name
+
+    # Split the model name into repo_id and optional filename
+    parts = model_name.split("/")
+    if len(parts) > 2:
+        repo_id = "/".join(parts[:-1])
+        filename = parts[-1]
+    else:
+        repo_id = model_name
+        filename = None
+
+    # Check if the filename is a GGUF file
+    if filename and filename.lower().endswith(".gguf"):
+        try:
+            # Attempt to download the specified GGUF file
+            model_name = hf_hub_download(repo_id=repo_id, filename=filename)
+        except HTTPError as e:
+            if e.response.status_code == 404:
+                # If the specified GGUF file is not found, search for any GGUF file in the repo
+                repo_files = list_repo_files(repo_id)
+                for file in repo_files:
+                    if file.lower().endswith(".gguf"):
+                        model_name = hf_hub_download(repo_id=repo_id, filename=file)
+                        break
+                else:
+                    raise ValueError(f"No GGUF file found in Hugging Face repository {repo_id}")
+            elif e.response.status_code == 401:
+                # Handle unauthorized error, possibly due to missing authentication
+                token = os.getenv('HUGGINGFACE_TOKEN')
+                if token:
+                    login(token=token)
+                    model_name = hf_hub_download(repo_id=repo_id, filename=filename)
+                else:
+                    raise ValueError(f"Unauthorized access to repository {repo_id}. Please ensure you have the correct access token.")
+            else:
+                raise e
+    else:
+        # Handle the case where only the repository is provided and it's a GGUF model
+        try:
+            # Attempt to download the first available GGUF file in the repository
+            repo_files = list_repo_files(repo_id)
+            for file in repo_files:
+                if file.lower().endswith(".gguf"):
+                    model_name = hf_hub_download(repo_id=repo_id, filename=file)
+                    break
+            else:
+                raise ValueError(f"No GGUF file found in Hugging Face repository {repo_id}")
+        except HTTPError as e:
+            if e.response.status_code == 401:
+                # Handle unauthorized error, possibly due to missing authentication
+                token = os.getenv('HUGGINGFACE_TOKEN')
+                if token:
+                    login(token=token)
                     repo_files = list_repo_files(repo_id)
                     for file in repo_files:
                         if file.lower().endswith(".gguf"):
@@ -136,18 +180,12 @@ async def ensure_model_file(model_name: str):
                             break
                     else:
                         raise ValueError(f"No GGUF file found in Hugging Face repository {repo_id}")
-                elif e.response.status_code == 401:
-                    # Handle unauthorized error, possibly due to missing authentication
-                    token = os.getenv('HUGGINGFACE_TOKEN')
-                    if token:
-                        login(token=token)
-                        model_name = hf_hub_download(repo_id=repo_id, filename=filename)
-                    else:
-                        raise ValueError(f"Unauthorized access to repository {repo_id}. Please ensure you have the correct access token.")
                 else:
-                    raise e
-    return model_name
+                    raise ValueError(f"Unauthorized access to repository {repo_id}. Please ensure you have the correct access token.")
+            else:
+                raise e
 
+    return model_name
 
 async def create_model(
     model_type: str, 
@@ -204,7 +242,8 @@ async def create_model(
     model = model_class()    
 
     # Ensure the model file is present
-    model_name = await ensure_model_file(model_name)
+    if "gguf" in model_name.lower():
+        model_name = await ensure_model_file(model_name)
     
     # Conditionally pass backend_params only if the model requires it
     model_init_args = {**model_args, **kwargs}
