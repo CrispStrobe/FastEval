@@ -110,6 +110,15 @@ async def get_inference_backend(model_path: str):
 
     raise Exception('No inference backend supported for model "' + model_path)
 
+async def ensure_model_file(model_name: str):
+    from huggingface_hub import hf_hub_download
+
+    # Check if the model is a llama_cpp model with a .gguf extension
+    if model_name.lower().endswith(".gguf") or "gguf" in model_name.lower():
+        if not os.path.exists(model_name):
+            # Download the .gguf file from Hugging Face
+            model_name = hf_hub_download(repo_id=model_name, filename=model_name.split("/")[-1])
+    return model_name
 
 async def create_model(
     model_type: str, 
@@ -164,6 +173,9 @@ async def create_model(
 
     model_class = model_classes[model_type]
     model = model_class()    
+
+    # Ensure the model file is present
+    model_name = await ensure_model_file(model_name)
     
     # Conditionally pass backend_params only if the model requires it
     model_init_args = {**model_args, **kwargs}
