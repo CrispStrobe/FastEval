@@ -94,11 +94,11 @@ async def get_inference_backend(model_path: str):
 
 
 async def create_model(
-        model_type: str, 
-        model_name: str, 
-        model_args: dict[str, str], 
-        backend_params=None, # Added
-        **kwargs  
+    model_type: str, 
+    model_name: str, 
+    model_args: dict[str, str], 
+    backend_params=None,  # Added
+    **kwargs  
 ):
     from evaluation.models.alpaca_with_prefix import AlpacaWithPrefix
     from evaluation.models.alpaca_without_prefix import AlpacaWithoutPrefix
