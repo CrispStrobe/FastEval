@@ -98,6 +98,9 @@ backend = DataParallelBackend(
     worker_is_blocking=False,
 )
 
+def filter_inference_kwargs(kwargs):
+    allowed_keys = {"prompt", "tokenizer_path", "model_path", "dtype", "max_new_tokens", "temperature"}
+    return {k: v for k, v in kwargs.items() if k in allowed_keys}
 
 #async def run_inference(**kwargs):
 #    return await backend.run_inference(**kwargs, max_batch_size=1)
