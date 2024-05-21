@@ -145,11 +145,15 @@ async def create_model(
         raise Exception('Unknown model type "' + model_type + '"')
 
     model_class = model_classes[model_type]
-    model = model_class()
-    await model.init(model_name, **model_args, **kwargs)  # Add: backend_params=backend_params, here?
+    model = model_class()    
     
-    return model
+    # Conditionally pass backend_params only if the model requires it
+    model_init_args = {**model_args, **kwargs}
+    if backend_params is not None:
+        model_init_args['backend_params'] = backend_params
 
+    await model.init(model_name, **model_init_args)
+    return model
 
 async def compute_model_replies(model, conversations, *, progress_bar_description=None):
     if len(conversations) == 0:
