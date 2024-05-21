@@ -15,32 +15,50 @@ async def fetch_model_config(model_name: str):
         fetched_model_configs_lock.release()
         return model_config
 
-    import transformers
-
     # Check if the model is a llama_cpp model
-    if "gguf" in model_name:
+    if "gguf" in model_name.lower():
         fetched_model_configs[model_name] = None
         fetched_model_configs_lock.release()
         return None
+        
+    import transformers
 
-    model_config = transformers.AutoConfig.from_pretrained(
-        model_name, trust_remote_code=True
-    )
-    fetched_model_configs[model_name] = model_config
+    # If model_name is a local file, use it directly
+    if os.path.exists(model_name):
+        model_config = transformers.AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+        fetched_model_configs[model_name] = model_config
+        fetched_model_configs_lock.release()
+        return model_config
+
+    # Default behavior: download from Hugging Face Hub
+    try:
+        model_config = transformers.AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+        fetched_model_configs[model_name] = model_config
+    except Exception as e:
+        fetched_model_configs[model_name] = None
+        fetched_model_configs_lock.release()
+        raise e
 
     fetched_model_configs_lock.release()
-
     return model_config
 
 
 async def get_dtype(model_name: str):
+    import torch
+
     # Check if the model is a llama_cpp model
-    if "gguf" in model_name:
-        import torch
+    if "gguf" in model_name.lower():
         return torch.float16  # or whatever default dtype is appropriate
 
-    return (await fetch_model_config(model_name)).torch_dtype
+    # Check if the model is a local file
+    if os.path.exists(model_name):
+        config = await fetch_model_config(model_name)
+        if config:
+            return config.torch_dtype
+        else:
+            return torch.float16  # or appropriate default dtype
 
+    return (await fetch_model_config(model_name)).torch_dtype
 
 async def get_supported_inference_backends(model_name: str):
     if "starchat" in model_name:
